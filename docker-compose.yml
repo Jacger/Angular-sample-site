@@ -1,0 +1,41 @@
+version: "3.6"
+
+services:
+  # Using mongo atlas instead
+  # db:
+  #   image: mongo:6.0
+  #   restart: always
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: password
+  #     # Create a new database. Please note, the
+  #     # /docker-entrypoint-initdb.d/init.js has to be executed
+  #     # in order for the database to be created
+  #     MONGO_INITDB_DATABASE: dev
+  #   volumes:
+  #     - ./db-init.js:/docker-entrypoint-initdb.d/init.js:ro
+  #   ports:
+  #     - 27017:27017
+
+  # redis:
+  #   image: redis:alpine
+
+  # app:
+  #   build: ./docker/app
+  #   command: sh /entrypoint.sh
+  #   volumes:
+  #     - .:/app
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - 3000:3000
+
+  web:
+    build:
+      context: .
+      dockerfile: ./docker/web/Dockerfile
+    command: sh /entrypoint.sh
+    volumes:
+      - ./frontend:/usr/src/app
+    ports:
+      - 4200:4200
